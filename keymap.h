@@ -1,0 +1,211 @@
+#ifndef KEYMAP_h
+#define KEYMAP_h
+//#include "hid_tables.h"
+
+#define KEY_CAPSLOCK 0x39
+
+#define KEY_LEFT_CTRL    0x80
+#define KEY_LEFT_SHIFT    0x81
+#define KEY_LEFT_ALT    0x82
+#define KEY_LEFT_GUI    0x83
+#define KEY_RIGHT_CTRL    0x84
+#define KEY_RIGHT_SHIFT   0x85
+#define KEY_RIGHT_ALT   0x86
+#define KEY_RIGHT_GUI   0x87
+
+#define KEY_HID_OFFSET      0x88
+
+// The following definitions takes their value from the document at https://www.usb.org/sites/default/files/hut1_22.pdf, starting p82
+// However, their value are augmented by KEY_HID_OFFSET (for example, KEY_F12 real value is 0x45)
+#define KEY_UP_ARROW    0xDA
+#define KEY_DOWN_ARROW    0xD9
+#define KEY_LEFT_ARROW    0xD8
+#define KEY_RIGHT_ARROW   0xD7
+#define KEY_BACKSPACE   0xB2
+#define KEY_TAB       0xB3
+#define KEY_RETURN      0xB0
+#define KEY_ESC       0xB1
+#define KEY_INSERT      0xD1
+#define KEY_DELETE      0xD4
+#define KEY_PAGE_UP     0xD3
+#define KEY_PAGE_DOWN   0xD6
+#define KEY_HOME      0xD2
+#define KEY_END       0xD5
+#define KEY_CAPS_LOCK   0xC1
+#define KEY_F1        0xC2
+#define KEY_F2        0xC3
+#define KEY_F3        0xC4
+#define KEY_F4        0xC5
+#define KEY_F5        0xC6
+#define KEY_F6        0xC7
+#define KEY_F7        0xC8
+#define KEY_F8        0xC9
+#define KEY_F9        0xCA
+#define KEY_F10       0xCB
+#define KEY_F11       0xCC
+#define KEY_F12       0xCD
+#define KEY_F13             (KEY_HID_OFFSET+0x68)
+#define KEY_F14             (KEY_HID_OFFSET+0x69)
+#define KEY_F15             (KEY_HID_OFFSET+0x6A)
+#define KEY_KP_DOT          (KEY_HID_OFFSET+0x63)
+#define KEY_KP_ASTERISK     (KEY_HID_OFFSET+0x55)
+#define KEY_KP_PLUS         (KEY_HID_OFFSET+0x57)
+#define KEY_NUM_LOCK        (KEY_HID_OFFSET+0x53)
+#define KEY_KP_SLASH        (KEY_HID_OFFSET+0x54)
+#define KEY_KP_ENTER        (KEY_HID_OFFSET+0x58)
+#define KEY_KP_MINUS        (KEY_HID_OFFSET+0x56)
+#define KEY_KP_EQUAL        (KEY_HID_OFFSET+0x86)
+#define KEY_KP_0            (KEY_HID_OFFSET+0x62)
+#define KEY_KP_1            (KEY_HID_OFFSET+0x59)
+#define KEY_KP_2            (KEY_HID_OFFSET+0x5a)
+#define KEY_KP_3            (KEY_HID_OFFSET+0x5b)
+#define KEY_KP_4            (KEY_HID_OFFSET+0x5c)
+#define KEY_KP_5            (KEY_HID_OFFSET+0x5d)
+#define KEY_KP_6            (KEY_HID_OFFSET+0x5e)
+#define KEY_KP_7            (KEY_HID_OFFSET+0x5f)
+#define KEY_KP_8            (KEY_HID_OFFSET+0x60)
+#define KEY_KP_9            (KEY_HID_OFFSET+0x61)
+#define KEY_VOLUME_UP       (KEY_HID_OFFSET+0x80)
+#define KEY_VOLUME_DOWN     (KEY_HID_OFFSET+0x81)
+#define KEY_MUTE            (KEY_HID_OFFSET+0x7f)
+#define KEY_HELP            (KEY_HID_OFFSET+0x75)
+#define KEY_POWER           (KEY_HID_OFFSET+0x66)
+#define KEY_102ND           (KEY_HID_OFFSET+0x64)
+#define KEY_PRINT_SCREEN    (KEY_HID_OFFSET+0x46)    
+#define KEY_SCROLL_LOCK     (KEY_HID_OFFSET+0x47)
+#define KEY_PAUSE           (KEY_HID_OFFSET+0x48)       
+
+
+// problems: a, f10-f12, kp=
+static uint16_t adb_keycode_to_arduino_hid[128] = {
+    /* 0x00 = */ 'a',
+    /* 0x01 = */ 's',
+    /* 0x02 = */ 'd',
+    /* 0x03 = */ 'f',
+    /* 0x04 = */ 'h',
+    /* 0x05 = */ 'g',
+    /* 0x06 = */ 'z',
+    /* 0x07 = */ 'x',
+    /* 0x08 = */ 'c',
+    /* 0x09 = */ 'v',
+    /* 0x0a = */ KEY_102ND,
+    /* 0x0b = */ 'b',
+    /* 0x0c = */ 'q',
+    /* 0x0d = */ 'w',
+    /* 0x0e = */ 'e',
+    /* 0x0f = */ 'r',
+    /* 0x10 = */ 'y',
+    /* 0x11 = */ 't',
+    /* 0x12 = */ '1',
+    /* 0x13 = */ '2',
+    /* 0x14 = */ '3',
+    /* 0x15 = */ '4',
+    /* 0x16 = */ '6',
+    /* 0x17 = */ '5',
+    /* 0x18 = */ '=',
+    /* 0x19 = */ '9',
+    /* 0x1a = */ '7',
+    /* 0x1b = */ '-',
+    /* 0x1c = */ '8',
+    /* 0x1d = */ '0',
+    /* 0x1e = */ ']',
+    /* 0x1f = */ 'o',
+    /* 0x20 = */ 'u',
+    /* 0x21 = */ '[',
+    /* 0x22 = */ 'i',
+    /* 0x23 = */ 'p',
+    /* 0x24 = */ KEY_RETURN,
+    /* 0x25 = */ 'l',
+    /* 0x26 = */ 'j',
+    /* 0x27 = */ '\'',
+    /* 0x28 = */ 'k',
+    /* 0x29 = */ ';',
+    /* 0x2a = */ '\\',
+    /* 0x2b = */ ',',
+    /* 0x2c = */ '/',
+    /* 0x2d = */ 'n',
+    /* 0x2e = */ 'm',
+    /* 0x2f = */ '.',
+    /* 0x30 = */ KEY_TAB,
+    /* 0x31 = */ ' ',
+    /* 0x32 = */ '`',
+    /* 0x33 = */ KEY_BACKSPACE,
+    /* 0x34 = */ 0,
+    /* 0x35 = */ KEY_ESC,
+    /* 0x36 = */ KEY_LEFT_CTRL,
+    /* 0x37 = */ KEY_LEFT_GUI, // KEY_HID_OFFSET+0xE3, 
+    /* 0x38 = */ KEY_LEFT_SHIFT,
+    /* 0x39 = */ KEY_CAPS_LOCK,
+    /* 0x3a = */ KEY_LEFT_ALT,
+    /* 0x3b = */ KEY_LEFT_ARROW,
+    /* 0x3c = */ KEY_RIGHT_ARROW,
+    /* 0x3d = */ KEY_DOWN_ARROW,
+    /* 0x3e = */ KEY_UP_ARROW,
+    /* 0x3f = */ 0,
+    /* 0x40 = */ 0,
+    /* 0x41 = */ KEY_KP_DOT,
+    /* 0x42 = */ 0,
+    /* 0x43 = */ KEY_KP_ASTERISK,
+    /* 0x44 = */ 0,
+    /* 0x45 = */ KEY_KP_PLUS,
+    /* 0x46 = */ 0,
+    /* 0x47 = */ KEY_NUM_LOCK,
+    /* 0x48 = */ 0,
+    /* 0x49 = */ 0,
+    /* 0x4a = */ 0,
+    /* 0x4b = */ KEY_KP_SLASH,
+    /* 0x4c = */ KEY_KP_ENTER,
+    /* 0x4d = */ 0,
+    /* 0x4e = */ KEY_KP_MINUS,
+    /* 0x4f = */ 0,
+    /* 0x50 = */ 0,
+    /* 0x51 = */ '=', //  KEY_KP_EQUAL (not on Windows),
+    /* 0x52 = */ KEY_KP_0,
+    /* 0x53 = */ KEY_KP_1,
+    /* 0x54 = */ KEY_KP_2,
+    /* 0x55 = */ KEY_KP_3,
+    /* 0x56 = */ KEY_KP_4,
+    /* 0x57 = */ KEY_KP_5,
+    /* 0x58 = */ KEY_KP_6,
+    /* 0x59 = */ KEY_KP_7,
+    /* 0x5a = */ 0,
+    /* 0x5b = */ KEY_KP_8,
+    /* 0x5c = */ KEY_KP_9,
+    /* 0x5d = */ 0,
+    /* 0x5e = */ 0,
+    /* 0x5f = */ 0,
+    /* 0x60 = */ KEY_F5,
+    /* 0x61 = */ KEY_F6,
+    /* 0x62 = */ KEY_F7,
+    /* 0x63 = */ KEY_F3,
+    /* 0x64 = */ KEY_F8,
+    /* 0x65 = */ KEY_F9,
+    /* 0x66 = */ 0,
+    /* 0x67 = */ KEY_F11, //KEY_VOLUME_DOWN, //KEY_F11,
+    /* 0x68 = */ 0,
+    /* 0x69 = */ KEY_PRINT_SCREEN, //KEY_F13,
+    /* 0x6a = */ 0,
+    /* 0x6b = */ KEY_SCROLL_LOCK, // KEY_F14
+    /* 0x6c = */ 0,
+    /* 0x6d = */ KEY_F10, //KEY_MUTE, //KEY_F10,
+    /* 0x6e = */ 0,
+    /* 0x6f = */ KEY_F12, //KEY_VOLUME_UP, //KEY_F12,
+    /* 0x70 = */ 0,
+    /* 0x71 = */ KEY_PAUSE, // KEY_F15,
+    /* 0x72 = */ KEY_INSERT, // or KEY_INSERT
+    /* 0x73 = */ KEY_HOME,
+    /* 0x74 = */ KEY_PAGE_UP,
+    /* 0x75 = */ KEY_DELETE,
+    /* 0x76 = */ KEY_F4,
+    /* 0x77 = */ KEY_END,
+    /* 0x78 = */ KEY_F2,
+    /* 0x79 = */ KEY_PAGE_DOWN,
+    /* 0x7a = */ KEY_F1,
+    /* 0x7b = */ KEY_RIGHT_SHIFT,
+    /* 0x7c = */ KEY_RIGHT_ALT,
+    /* 0x7d = */ KEY_RIGHT_CTRL,
+    /* 0x7e = */ 0,
+    /* 0x7f = */ KEY_POWER, // Special key, repeated in both bytes of the register
+};
+
+#endif

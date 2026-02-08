@@ -1,6 +1,10 @@
 MIT License
 
-Copyright (c) 2026 arpruss
+This applies to the code written by Alexander R Pruss. I apologize but I can't
+remember if I wrote all of the code. Some of it doesn't seem to be in my style.
+But I am responsible for adb2serial.ino at least.
+
+Copyright (c) 2026 Alexander Pruss
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
