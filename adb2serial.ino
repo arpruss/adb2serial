@@ -7,8 +7,10 @@
 
 #define POLL_DELAY    5
 
-//#define LED PC13 // blue pill
-#define LED PB12 // black pill
+#define OTHER_LINE PB11
+#define LED PC13 // blue pill
+//#define LED PB12 // black pill
+#define Serial Serial2
 
 bool capsLock = false;
 bool numLock = false;
@@ -41,6 +43,10 @@ void setup() {
     // Turn the led off at the beginning of setup
     pinMode(LED, OUTPUT);
     digitalWrite(LED, HIGH);
+    Serial.begin(9600);
+    pinMode(OTHER_LINE, OUTPUT);
+    digitalWrite(OTHER_LINE, HIGH);
+    //while (1) Serial.write(19);
 
     // Set up the ADB bus
     adb_init();
