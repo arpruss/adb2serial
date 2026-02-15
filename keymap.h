@@ -14,6 +14,7 @@
 #define KEY_RIGHT_GUI   0x87
 
 #define KEY_HID_OFFSET      0x88
+#define KEY_ALT_A           0x88
 
 // The following definitions takes their value from the document at https://www.usb.org/sites/default/files/hut1_22.pdf, starting p82
 // However, their value are augmented by KEY_HID_OFFSET (for example, KEY_F12 real value is 0x45)

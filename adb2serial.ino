@@ -7,6 +7,9 @@
 
 #define POLL_DELAY    5
 
+#define EMIT_ALT_PRESS   0xFF
+#define EMIT_ALT_RELEASE 0xFE
+
 #define OTHER_LINE PB11
 #define LED PC13 // blue pill
 //#define LED PB12 // black pill
@@ -16,6 +19,7 @@ bool capsLock = false;
 bool numLock = false;
 bool shift = false;
 bool ctrl = false;
+bool alt = false;
 bool apple_extended_detected = false;
 bool keyboard_present = false, mouse_present = false;
 unsigned pressedKey=0;
@@ -91,6 +95,7 @@ void setup() {
     digitalWrite(LED, LOW);
 }
 
+#define CTRL(x) ((x)-'a'+1)
 
 void handlePress(uint16_t key, int repeat) {
   pressedKey = key;
@@ -105,25 +110,38 @@ void handlePress(uint16_t key, int repeat) {
     case KEY_LEFT_SHIFT:
     case KEY_RIGHT_SHIFT:
       shift = true;
+      key = 0;
       break;
     case KEY_LEFT_CTRL:
     case KEY_RIGHT_CTRL:
+      key = 0;
       ctrl = true;
+      break;
+    case KEY_LEFT_ALT:
+    case KEY_RIGHT_ALT:
+      alt = true;
+      key = 0;
       break;
     case KEY_RETURN:
       emit = 10;
       break;
     case KEY_LEFT_ARROW:
-      emit = 2;
+      if (ctrl)
+        emit = CTRL('l');
+      else
+        emit = CTRL('b');
       break;
     case KEY_RIGHT_ARROW:
-      emit = 6;
+      if (ctrl)
+        emit = CTRL('r');
+      else
+        emit = CTRL('f');
       break;
     case KEY_DOWN_ARROW:
-      emit = 0xE;
+      emit = CTRL('n');
       break;
     case KEY_UP_ARROW:
-      emit = 0x10;
+      emit = CTRL('p');
       break;
     case KEY_ESC:
       emit = 27;
@@ -189,8 +207,11 @@ void handlePress(uint16_t key, int repeat) {
       if ('a' <= key && key <= 'z') {
         if (ctrl) 
           emit = key + (1 - 'a');
+        else if (alt)
+          emit = key + (KEY_ALT_A-'a');
         else if (shift ^ capsLock) 
           emit = key + ('A' - 'a');
+        
       }
       else if (shift) {
         if ('0' <= key && key <= '9') {
@@ -239,7 +260,7 @@ void handlePress(uint16_t key, int repeat) {
   if (emit) {
     Serial.write(emit);
   }
-  else if (32 <= key && key < 128) {
+  else if (32 <= key) {
     Serial.write(key);
   }
   else {
@@ -257,6 +278,10 @@ void handleRelease(uint16_t key, int repeat) {
     case KEY_LEFT_CTRL:
     case KEY_RIGHT_CTRL:
       ctrl = false;
+      break;
+    case KEY_LEFT_ALT:
+    case KEY_RIGHT_ALT:
+      alt = false;
       break;
   }
 }
