@@ -5,7 +5,8 @@
 #undef DEBUG
 //#define POWER_EMULATES_RIGHT_MOUSE
 
-#define POLL_DELAY    5
+#define DOUBLE_CLICK_TIME 500
+#define POLL_DELAY         5
 
 #define EMIT_ALT_PRESS   0xFF
 #define EMIT_ALT_RELEASE 0xFE
@@ -13,7 +14,11 @@
 #define OTHER_LINE PB11
 #define LED PC13 // blue pill
 //#define LED PB12 // black pill
+#define MOUSE_DATA    0xF0
+
+#ifndef DEBUG
 #define Serial Serial2
+#endif
 
 bool capsLock = false;
 bool numLock = false;
@@ -26,6 +31,8 @@ unsigned pressedKey=0;
 unsigned repeatTargetTime=0;
 unsigned repeatDelay = 200;
 unsigned repeatRate = 33;
+uint32_t mouseDownForDoubleClick = 0;
+bool previousMouseButtonState = false;
 
 const uint32_t flourishPause = 40;
 
@@ -47,7 +54,7 @@ void setup() {
     // Turn the led off at the beginning of setup
     pinMode(LED, OUTPUT);
     digitalWrite(LED, HIGH);
-    Serial.begin(9600);
+    Serial.begin(19200);
     pinMode(OTHER_LINE, OUTPUT);
     digitalWrite(OTHER_LINE, HIGH);
     //while (1) Serial.write(19);
@@ -87,7 +94,16 @@ void setup() {
       if (!error) mouse_present = true;
     } while(!keyboard_present && !mouse_present);
 
-    Serial.begin(9600);
+#ifdef DEBUG
+    Serial.print("Init ");
+    if (keyboard_present)
+      Serial.print("keyboard ");    
+    if (keyboard_present)
+      Serial.print("mouse ");    
+    Serial.println("");
+#endif    
+
+    Serial.begin(19200);
 
     // Set-up successful, turn on the LED
     if (keyboard_present)
@@ -107,6 +123,9 @@ void handlePress(uint16_t key, int repeat) {
   int emit = 0;
 
   switch(key) {
+    case KEY_TAB:
+      emit = '\t';
+      break;
     case KEY_LEFT_SHIFT:
     case KEY_RIGHT_SHIFT:
       shift = true;
@@ -122,8 +141,9 @@ void handlePress(uint16_t key, int repeat) {
       alt = true;
       key = 0;
       break;
+    case KEY_KP_ENTER:
     case KEY_RETURN:
-      emit = 10;
+      emit = 13;
       break;
     case KEY_LEFT_ARROW:
       if (ctrl)
@@ -150,7 +170,10 @@ void handlePress(uint16_t key, int repeat) {
       emit = 7;
     case KEY_BACKSPACE:
       emit = 8;
-      break;      
+      break;     
+    case KEY_KP_MINUS:
+      emit = '-';
+      break; 
     case KEY_KP_DOT:
       emit = '.';
       break;
@@ -162,9 +185,6 @@ void handlePress(uint16_t key, int repeat) {
       break;
     case KEY_KP_SLASH:
       emit = '/';
-      break;
-    case KEY_KP_ENTER:
-      emit = 10;
       break;
     case KEY_KP_EQUAL:
       emit = '=';
@@ -353,27 +373,35 @@ void keyboard_handler() {
 }
 
 void mouse_handler() {
-#if 0 // TODO
     bool error = false;
     auto mouse_data = adb_mouse_read_data(&error);
 
     if (error || mouse_data.raw == 0) return;
 
-    int8_t mouse_x = ADB_MOUSE_CONV_AXIS(mouse_data.data.x_offset);
-    int8_t mouse_y = ADB_MOUSE_CONV_AXIS(mouse_data.data.y_offset);
+    int8_t mouse_x = mouse_data.data.x_offset;
+    int8_t mouse_y = mouse_data.data.y_offset;
     bool button = 0 == mouse_data.data.button;
 
-    if (button) {
-      if (!Mouse.isPressed())
-        Mouse.press(); 
+    Serial.write(button ? (MOUSE_DATA|1) : MOUSE_DATA);
+    Serial.write(0x7F&mouse_x);
+
+    if (button) {      
+      if (!previousMouseButtonState) {
+        if (mouseDownForDoubleClick != 0 && millis() - mouseDownForDoubleClick <= DOUBLE_CLICK_TIME) {
+          Serial.write((0x7F&mouse_y) | 0x80);
+          mouseDownForDoubleClick = 0;
+          return;
+        }
+        else {
+          mouseDownForDoubleClick = millis();
+        }
+      }        
+      previousMouseButtonState = true;
     }
     else {
-      if (Mouse.isPressed())
-        Mouse.release();
+      previousMouseButtonState = false;
     }
-
-    Mouse.move(mouse_x, mouse_y);
-#endif    
+    Serial.write(0x7F&mouse_y);
 }
 
 void led_handler() {
@@ -396,9 +424,9 @@ void loop() {
         // we don't want to overwhelm USB either
         delay(POLL_DELAY);
     }
-/*
+
     if (mouse_present) {
         mouse_handler();
         delay(POLL_DELAY);
-    } */
+    } 
 }
