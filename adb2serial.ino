@@ -143,7 +143,7 @@ void handlePress(uint16_t key, int repeat) {
       break;
     case KEY_KP_ENTER:
     case KEY_RETURN:
-      emit = 13;
+      emit = 10;
       break;
     case KEY_LEFT_ARROW:
       if (ctrl)
