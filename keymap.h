@@ -16,6 +16,9 @@
 #define KEY_HID_OFFSET      0x88
 #define KEY_ALT_A           0x88
 
+#define KEY_CTRL_LEFT_ARROW  0xA3
+#define KEY_CTRL_RIGHT_ARROW 0xA4
+
 // The following definitions takes their value from the document at https://www.usb.org/sites/default/files/hut1_22.pdf, starting p82
 // However, their value are augmented by KEY_HID_OFFSET (for example, KEY_F12 real value is 0x45)
 #define KEY_UP_ARROW    0xDA
@@ -66,10 +69,10 @@
 #define KEY_KP_7            (KEY_HID_OFFSET+0x5f)
 #define KEY_KP_8            (KEY_HID_OFFSET+0x60)
 #define KEY_KP_9            (KEY_HID_OFFSET+0x61)
-#define KEY_VOLUME_UP       (KEY_HID_OFFSET+0x80)
-#define KEY_VOLUME_DOWN     (KEY_HID_OFFSET+0x81)
-#define KEY_MUTE            (KEY_HID_OFFSET+0x7f)
-#define KEY_HELP            (KEY_HID_OFFSET+0x75)
+//#define KEY_VOLUME_UP       (KEY_HID_OFFSET+0x80)
+//#define KEY_VOLUME_DOWN     (KEY_HID_OFFSET+0x81)
+//#define KEY_MUTE            (KEY_HID_OFFSET+0x7f)
+//#define KEY_HELP            (KEY_HID_OFFSET+0x75)
 #define KEY_POWER           (KEY_HID_OFFSET+0x66)
 #define KEY_102ND           (KEY_HID_OFFSET+0x64)
 #define KEY_PRINT_SCREEN    (KEY_HID_OFFSET+0x46)    

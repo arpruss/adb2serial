@@ -141,83 +141,72 @@ void handlePress(uint16_t key, int repeat) {
       alt = true;
       key = 0;
       break;
-    case KEY_KP_ENTER:
     case KEY_RETURN:
       emit = 10;
       break;
     case KEY_LEFT_ARROW:
       if (ctrl)
-        emit = CTRL('l');
-      else
-        emit = CTRL('b');
+        emit = KEY_CTRL_LEFT_ARROW;
       break;
     case KEY_RIGHT_ARROW:
       if (ctrl)
-        emit = CTRL('r');
-      else
-        emit = CTRL('f');
-      break;
-    case KEY_DOWN_ARROW:
-      emit = CTRL('n');
-      break;
-    case KEY_UP_ARROW:
-      emit = CTRL('p');
+        emit = KEY_CTRL_RIGHT_ARROW;
       break;
     case KEY_ESC:
       emit = 27;
       break;
     case KEY_DELETE:
-      emit = 7;
+      emit = 127;
     case KEY_BACKSPACE:
       emit = 8;
       break;     
     case KEY_KP_MINUS:
-      emit = '-';
+      if (!numLock) emit = '-';
       break; 
     case KEY_KP_DOT:
-      emit = '.';
+      if (!numLock) emit = '.';
       break;
     case KEY_KP_ASTERISK:
-      emit = '*';
+      if (!numLock) emit = '*';
       break;
     case KEY_KP_PLUS:
-      emit = '+';
+      if (!numLock) emit = '+';
       break;
     case KEY_KP_SLASH:
-      emit = '/';
+      if (!numLock) emit = '/';
+      break;
+    case KEY_KP_0:
+      if (!numLock) emit = '0';
+      break;
+    case KEY_KP_1:
+      if (!numLock) emit = '1';
+      break;
+    case KEY_KP_2:
+      if (!numLock) emit = '2';
+      break;
+    case KEY_KP_3:
+      if (!numLock) emit = '3';
+      break;
+    case KEY_KP_4:
+      if (!numLock) emit = '4';
+      break;
+    case KEY_KP_5:
+      if (!numLock) emit = '5';
+      break;
+    case KEY_KP_6:
+      if (!numLock) emit = '6';
+      break;
+    case KEY_KP_7:
+      if (!numLock) emit = '7';
+      break;
+    case KEY_KP_8:
+      if (!numLock) emit = '8';
+      break;
+    case KEY_KP_9:
+      if (!numLock) emit = '9';
       break;
     case KEY_KP_EQUAL:
       emit = '=';
-      break;
-    case KEY_KP_0:
-      emit = '0';
-      break;
-    case KEY_KP_1:
-      emit = '1';
-      break;
-    case KEY_KP_2:
-      emit = '2';
-      break;
-    case KEY_KP_3:
-      emit = '3';
-      break;
-    case KEY_KP_4:
-      emit = '4';
-      break;
-    case KEY_KP_5:
-      emit = '5';
-      break;
-    case KEY_KP_6:
-      emit = '6';
-      break;
-    case KEY_KP_7:
-      emit = '7';
-      break;
-    case KEY_KP_8:
-      emit = '8';
-      break;
-    case KEY_KP_9:
-      emit = '9';
       break;
     case KEY_PAUSE:
       if (ctrl)
@@ -277,6 +266,7 @@ void handlePress(uint16_t key, int repeat) {
       }
       break;
   }
+  
   if (emit) {
     Serial.write(emit);
   }
