@@ -161,49 +161,49 @@ void handlePress(uint16_t key, int repeat) {
       emit = 8;
       break;     
     case KEY_KP_MINUS:
-      if (numLock) emit = '-';
+      if (numLock ^ shift) emit = '-';
       break; 
     case KEY_KP_DOT:
-      if (numLock) emit = '.';
+      if (numLock ^ shift) emit = '.';
       break;
     case KEY_KP_ASTERISK:
-      if (numLock) emit = '*';
+      if (numLock ^ shift) emit = '*';
       break;
     case KEY_KP_PLUS:
-      if (numLock) emit = '+';
+      if (numLock ^ shift) emit = '+';
       break;
     case KEY_KP_SLASH:
-      if (numLock) emit = '/';
+      if (numLock ^ shift) emit = '/';
       break;
     case KEY_KP_0:
-      if (numLock) emit = '0';
+      if (numLock ^ shift) emit = '0';
       break;
     case KEY_KP_1:
-      if (numLock) emit = '1';
+      if (numLock ^ shift) emit = '1';
       break;
     case KEY_KP_2:
-      if (numLock) emit = '2';
+      if (numLock ^ shift) emit = '2';
       break;
     case KEY_KP_3:
-      if (numLock) emit = '3';
+      if (numLock ^ shift) emit = '3';
       break;
     case KEY_KP_4:
-      if (numLock) emit = '4';
+      if (numLock ^ shift) emit = '4';
       break;
     case KEY_KP_5:
-      if (numLock) emit = '5';
+      if (numLock ^ shift) emit = '5';
       break;
     case KEY_KP_6:
-      if (numLock) emit = '6';
+      if (numLock ^ shift) emit = '6';
       break;
     case KEY_KP_7:
-      if (numLock) emit = '7';
+      if (numLock ^ shift) emit = '7';
       break;
     case KEY_KP_8:
-      if (numLock) emit = '8';
+      if (numLock ^ shift) emit = '8';
       break;
     case KEY_KP_9:
-      if (numLock) emit = '9';
+      if (numLock ^ shift) emit = '9';
       break;
     case KEY_KP_EQUAL:
       emit = '=';
