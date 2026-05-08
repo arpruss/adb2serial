@@ -25,6 +25,7 @@ bool numLock = false;
 bool shift = false;
 bool ctrl = false;
 bool alt = false;
+bool gui = false;
 bool apple_extended_detected = false;
 bool keyboard_present = false, mouse_present = false;
 unsigned pressedKey=0;
@@ -113,6 +114,19 @@ void setup() {
 
 #define CTRL(x) ((x)-'a'+1)
 
+void changedModifiers(void) {
+  uint8_t m = KEY_MODIFIER;
+  if (shift)
+    m |= KEY_MODIFIER_SHIFT;
+  if (alt)
+    m |= KEY_MODIFIER_ALT;
+  if (ctrl)
+    m |= KEY_MODIFIER_CTRL;
+  if (gui)
+    m |= KEY_MODIFIER_GUI;
+  Serial.write(m);
+}
+
 void handlePress(uint16_t key, int repeat) {
   pressedKey = key;
   
@@ -130,28 +144,37 @@ void handlePress(uint16_t key, int repeat) {
     case KEY_RIGHT_SHIFT:
       shift = true;
       key = 0;
-      break;
-    case KEY_LEFT_CTRL:
-    case KEY_RIGHT_CTRL:
-      key = 0;
-      ctrl = true;
+      changedModifiers();
       break;
     case KEY_LEFT_ALT:
     case KEY_RIGHT_ALT:
       alt = true;
       key = 0;
+      changedModifiers();
+      break;
+    case KEY_LEFT_CTRL:
+    case KEY_RIGHT_CTRL:
+      key = 0;
+      ctrl = true;
+      changedModifiers();
+      break;
+    case KEY_LEFT_GUI:
+    case KEY_RIGHT_GUI:
+      key = 0;
+      gui = true;
+      changedModifiers();
       break;
     case KEY_RETURN:
       emit = 10;
       break;
-    case KEY_LEFT_ARROW:
-      if (ctrl)
-        emit = KEY_CTRL_LEFT_ARROW;
-      break;
-    case KEY_RIGHT_ARROW:
-      if (ctrl)
-        emit = KEY_CTRL_RIGHT_ARROW;
-      break;
+//    case KEY_LEFT_ARROW:
+//      if (ctrl)
+//        emit = KEY_CTRL_LEFT_ARROW;
+//      break;
+//    case KEY_RIGHT_ARROW:
+//      if (ctrl)
+//        emit = KEY_CTRL_RIGHT_ARROW;
+//      break;
     case KEY_ESC:
       emit = 27;
       break;
@@ -161,52 +184,52 @@ void handlePress(uint16_t key, int repeat) {
       emit = 8;
       break;     
     case KEY_KP_MINUS:
-      if (numLock ^ shift) emit = '-';
+      if (numLock) emit = '-';
       break; 
     case KEY_KP_DOT:
-      if (numLock ^ shift) emit = '.';
+      if (numLock) emit = '.';
       break;
     case KEY_KP_ASTERISK:
-      if (numLock ^ shift) emit = '*';
+      if (numLock) emit = '*';
       break;
     case KEY_KP_PLUS:
-      if (numLock ^ shift) emit = '+';
+      if (numLock) emit = '+';
       break;
     case KEY_KP_SLASH:
-      if (numLock ^ shift) emit = '/';
+      if (numLock) emit = '/';
       break;
     case KEY_KP_0:
-      if (numLock ^ shift) emit = '0';
+      if (numLock) emit = '0';
       break;
     case KEY_KP_1:
-      if (numLock ^ shift) emit = '1';
+      if (numLock) emit = '1';
       break;
     case KEY_KP_2:
-      if (numLock ^ shift) emit = '2';
+      if (numLock) emit = '2';
       break;
     case KEY_KP_3:
-      if (numLock ^ shift) emit = '3';
+      if (numLock) emit = '3';
       break;
     case KEY_KP_4:
-      if (numLock ^ shift) emit = '4';
+      if (numLock) emit = '4';
       break;
     case KEY_KP_5:
-      if (numLock ^ shift) emit = '5';
+      if (numLock) emit = '5';
       break;
     case KEY_KP_6:
-      if (numLock ^ shift) emit = '6';
+      if (numLock) emit = '6';
       break;
     case KEY_KP_7:
-      if (numLock ^ shift) emit = '7';
+      if (numLock) emit = '7';
       break;
     case KEY_KP_8:
-      if (numLock ^ shift) emit = '8';
+      if (numLock) emit = '8';
       break;
     case KEY_KP_9:
-      if (numLock ^ shift) emit = '9';
+      if (numLock) emit = '9';
       break;
     case KEY_KP_EQUAL:
-      emit = '=';
+      emit = '='; // TODOu
       break;
     case KEY_PAUSE:
       if (ctrl)
@@ -216,11 +239,10 @@ void handlePress(uint16_t key, int repeat) {
       if ('a' <= key && key <= 'z') {
         if (ctrl) 
           emit = key + (1 - 'a');
-        else if (alt)
-          emit = key + (KEY_ALT_A-'a');
+//        else if (alt)
+//          emit = key + (KEY_ALT_A-'a');
         else if (shift ^ capsLock) 
-          emit = key + ('A' - 'a');
-        
+          emit = key + ('A' - 'a');      
       }
       else if (shift) {
         if ('0' <= key && key <= '9') {
@@ -284,14 +306,22 @@ void handleRelease(uint16_t key, int repeat) {
     case KEY_LEFT_SHIFT:
     case KEY_RIGHT_SHIFT:
       shift = false;
+      changedModifiers();
       break;
     case KEY_LEFT_CTRL:
     case KEY_RIGHT_CTRL:
       ctrl = false;
+      changedModifiers();
       break;
     case KEY_LEFT_ALT:
     case KEY_RIGHT_ALT:
       alt = false;
+      changedModifiers();
+      break;
+    case KEY_LEFT_GUI:
+    case KEY_RIGHT_GUI:
+      gui = false;
+      changedModifiers();
       break;
   }
 }

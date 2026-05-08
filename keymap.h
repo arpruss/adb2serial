@@ -4,6 +4,12 @@
 
 #define KEY_CAPSLOCK 0x39
 
+#define KEY_MODIFIER      0x80
+#define KEY_MODIFIER_SHIFT 1
+#define KEY_MODIFIER_CTRL  2
+#define KEY_MODIFIER_ALT   4
+#define KEY_MODIFIER_GUI   8
+
 #define KEY_LEFT_CTRL    0x80
 #define KEY_LEFT_SHIFT    0x81
 #define KEY_LEFT_ALT    0x82
@@ -14,10 +20,9 @@
 #define KEY_RIGHT_GUI   0x87
 
 #define KEY_HID_OFFSET      0x88
-#define KEY_ALT_A           0x88
 
-#define KEY_CTRL_LEFT_ARROW  0xA3
-#define KEY_CTRL_RIGHT_ARROW 0xA4
+//#define KEY_CTRL_LEFT_ARROW  0xA3
+//#define KEY_CTRL_RIGHT_ARROW 0xA4
 
 // The following definitions takes their value from the document at https://www.usb.org/sites/default/files/hut1_22.pdf, starting p82
 // However, their value are augmented by KEY_HID_OFFSET (for example, KEY_F12 real value is 0x45)
